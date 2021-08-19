@@ -6,15 +6,13 @@
 </head>
 <body>
 <form action="/page.html" method="POST">
-    \tag: <input type="text" name="message"/>
+    /search: <input type="text" name="tag"/>
     <input type="submit" value="Ok">
 </form>
 
-<p>Message: ${message}</p>
+<p>Tag: ${tag}</p>
 
-<p>Method: ${method}</p>
-
-<p>URL: ${URL}</p>
+<p>URL: <a href="https://api.stackexchange.com/2.2/search?pagesize=100&order=desc&sort=creation&tagged=${tag}&site=stackoverflow">Stack Overflow</a> </p>
 
 <p>PathInfo: ${pathInfo}</p>
 
