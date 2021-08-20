@@ -19,5 +19,6 @@
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-xml:9.3.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-servlet:9.3.0.M0" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.jetty:jetty-security:9.3.0.M0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.7" level="project" />
   </component>
 </module>

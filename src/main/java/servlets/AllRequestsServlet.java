@@ -1,10 +1,14 @@
 package servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import json.Item;
 import templater.PageGenerator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +46,7 @@ public class AllRequestsServlet extends HttpServlet {
 
     private static Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("pathInfo", request.getPathInfo());
-        pageVariables.put("sessionId", request.getSession().getId());
-        pageVariables.put("parameters", request.getParameterMap().toString());
+        pageVariables.put("result",request.getSession());
         return pageVariables;
     }
 }
