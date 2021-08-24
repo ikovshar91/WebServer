@@ -1,8 +1,5 @@
 package servlets;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import json.Item;
 import templater.PageGenerator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -35,14 +31,16 @@ public class AllRequestsServlet extends HttpServlet {
                        HttpServletResponse response) throws IOException {
         Map<String, Object> pageVariables = createPageVariablesMap(request);
 
+        String tag  = request.getParameter("tag");
 
-
-        URL url = new URL("https://api.stackexchange.com/2.2/search?pagesize=100&order=desc&sort=creation&tagged=python&site=stackoverflow");
+        String name = tag.equals("") ? "1": tag;
+        URL url = new URL("https://api.stackexchange.com/2.2/search?pagesize=100&order=desc&sort=creation&tagged="+
+              name  +"&site=stackoverflow");
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("User-Agent", "Mozilla/5.0");
+        connection.setRequestProperty("Content-Type", "application/json");
 
 
         GZIPInputStream gis = new GZIPInputStream(connection.getInputStream());
@@ -50,29 +48,27 @@ public class AllRequestsServlet extends HttpServlet {
 
         String inputLine;
 
-        StringBuffer kek = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
+
 
         while ((inputLine = bufferedReader.readLine()) != null) {
-            kek.append((inputLine));
+            stringBuilder.append((inputLine));
         }
         bufferedReader.close();
 
-        String tag  = request.getParameter("tag");
 
-        Gson gson = new Gson();
-        Item azaz = gson.fromJson(String.valueOf(kek), Item.class);
 
-        pageVariables.put("result", azaz);
 
         response.setContentType("text/html;charset=utf-8");
 
-        if (tag == null || tag.isEmpty()) {
+        if (tag.equals("") || tag.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
         else {
             response.setStatus(HttpServletResponse.SC_OK);
         }
-        pageVariables.put("tag", tag == null ? "" : tag);
+        pageVariables.put("tag", tag.equals("") ? "" : tag);
+        pageVariables.put("result", stringBuilder);
 
         response.getWriter().println(PageGenerator.instance().getPage("page.html", pageVariables));
     }
