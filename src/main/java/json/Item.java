@@ -1,6 +1,5 @@
 package json;
 
-
 import java.util.List;
 
 public class Item{
@@ -20,6 +19,9 @@ public class Item{
     public String closed_reason;
     public int last_edit_date;
     public int accepted_answer_id;
+
+
+
 }
 
 

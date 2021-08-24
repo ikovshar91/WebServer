@@ -1,5 +1,8 @@
 package servlets;
 
+import com.google.gson.Gson;
+import json.Item;
+import json.Root;
 import templater.PageGenerator;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +60,12 @@ public class AllRequestsServlet extends HttpServlet {
         bufferedReader.close();
 
 
+        Gson gson = new Gson();
+        Root root = gson.fromJson(stringBuilder.toString(), Root.class);
 
-
+        for (Item root1 : root.items){
+            pageVariables.put("result", gson.toJson(root1));
+        }
         response.setContentType("text/html;charset=utf-8");
 
         if (tag.equals("") || tag.isEmpty()) {
@@ -68,7 +75,7 @@ public class AllRequestsServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
         }
         pageVariables.put("tag", tag.equals("") ? "" : tag);
-        pageVariables.put("result", stringBuilder);
+
 
         response.getWriter().println(PageGenerator.instance().getPage("page.html", pageVariables));
     }
