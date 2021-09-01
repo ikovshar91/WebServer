@@ -3,6 +3,7 @@ package servlets;
 import com.google.gson.Gson;
 import json.Item;
 import json.Root;
+import json.Student;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,17 @@ import java.util.zip.GZIPInputStream;
 
 public class AllRequestsServlet extends HttpServlet {
 
+    @Override
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws IOException {
-        response.getWriter().println("Hello world");
+        Student student = new Student("1","Igor","Kovshar","Romanovich");
+        Gson gson = new Gson();
+        response.setContentType("application/json");
+       response.getWriter().print(gson.toJson(student));
     }
 
-//    public void doPost(HttpServletRequest request,
+
+    // public void doPost(HttpServletRequest request,
 //                       HttpServletResponse response) throws IOException {
 //
 //
